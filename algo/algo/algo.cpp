@@ -11,7 +11,7 @@ namespace tickets
    constexpr storage<(N * 9) + 1> GetCombinations()
    {
       storage<(N * 9) + 1> total{};
-      constexpr auto prevTotal = GetCombinations<N - 1>();
+      auto prevTotal = GetCombinations<N - 1>();
 
       for (int sum = 0; sum <= N * 9; ++sum)
       {
@@ -37,7 +37,7 @@ namespace tickets
    constexpr value GetResult()
    {
       value r{};
-      constexpr auto res = GetCombinations<N>();
+      auto res = GetCombinations<N>();
       for (const auto& val : res)
       {
          r += val * val;
