@@ -1,21 +1,17 @@
 #include <iostream>
-#include <vector>
 #include <chrono>
+#include <array>
 
 using value = std::int64_t;
-using storage = std::vector<value>;
+template <int N> using storage = std::array<value, N>;
 
 namespace tickets
 {
-   storage GetCombinations(int N)
+   template <int N>
+   constexpr storage<(N * 9) + 1> GetCombinations()
    {
-      if (N == 1)
-      {
-         return storage(10, 1);
-      }
-
-      storage total((N * 9) + 1, 0);
-      storage prevTotal = GetCombinations(N - 1);
+      storage<(N * 9) + 1> total{};
+      constexpr auto prevTotal = GetCombinations<N - 1>();
 
       for (int sum = 0; sum <= N * 9; ++sum)
       {
@@ -31,10 +27,17 @@ namespace tickets
       return total;
    }
 
-   value GetResult(int N)
+   template <>
+   constexpr storage<10> GetCombinations<1>()
+   {
+      return { 1,1,1,1,1,1,1,1,1,1 };
+   }
+
+   template <int N>
+   constexpr value GetResult()
    {
       value r{};
-      const auto res = GetCombinations(N);
+      constexpr auto res = GetCombinations<N>();
       for (const auto& val : res)
       {
          r += val * val;
@@ -48,7 +51,7 @@ int main()
 {
    const int N = 10;
    const auto start = std::chrono::steady_clock::now();
-   const auto totalCombinationCount = tickets::GetResult(N);
+   constexpr auto totalCombinationCount = tickets::GetResult<10>();
    const auto calculationTime = std::chrono::steady_clock::now() - start;
 
    std::cout << "N == " << N << "; combinations: " << totalCombinationCount
