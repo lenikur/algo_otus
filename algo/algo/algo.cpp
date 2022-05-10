@@ -49,9 +49,9 @@ namespace tickets
 
 int main()
 {
-   const int N = 10;
+   constexpr int N = 10;
    const auto start = std::chrono::steady_clock::now();
-   constexpr auto totalCombinationCount = tickets::GetResult<10>();
+   constexpr auto totalCombinationCount = tickets::GetResult<N>();
    const auto calculationTime = std::chrono::steady_clock::now() - start;
 
    std::cout << "N == " << N << "; combinations: " << totalCombinationCount
