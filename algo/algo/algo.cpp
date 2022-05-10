@@ -2,6 +2,8 @@
 #include <chrono>
 #include <array>
 
+// Happy tickets combinations count calculation algorithm;
+// Complexity: O(N^2 * 100)
 // Compilation time calculation (0ns in runtime)
 
 using value = std::int64_t;
@@ -55,31 +57,32 @@ namespace tickets
    }
 }
 
+// correct results (for CalculateAndTesting)
 constexpr storage<11> combinations =
 { 0, 10, 670, 55252 , 4816030, 432457640, 39581170420, 3671331273480, 343900019857310, 32458256583753952, 3081918923741896840 };
 
-template <int Index>
-consteval value test()
+template <int N>
+consteval value CalculateAndTest()
 {
-   static_assert(combinations[Index] == tickets::GetResult<Index>());
-   return tickets::GetResult<Index>();
+   static_assert(combinations[N] == tickets::GetResult<N>());
+   return tickets::GetResult<N>();
 }
 
-consteval storage<11> calculateAll()
+consteval storage<11> CalculateAll()
 {
    std::array<value, 11> results;
 
-   results[0] = test<0>();
-   results[1] = test<1>();
-   results[2] = test<2>();
-   results[3] = test<3>();
-   results[4] = test<4>();
-   results[5] = test<5>();
-   results[6] = test<6>();
-   results[7] = test<7>();
-   results[8] = test<8>();
-   results[9] = test<9>();
-   results[10] = test<10>();
+   results[0] = CalculateAndTest<0>();
+   results[1] = CalculateAndTest<1>();
+   results[2] = CalculateAndTest<2>();
+   results[3] = CalculateAndTest<3>();
+   results[4] = CalculateAndTest<4>();
+   results[5] = CalculateAndTest<5>();
+   results[6] = CalculateAndTest<6>();
+   results[7] = CalculateAndTest<7>();
+   results[8] = CalculateAndTest<8>();
+   results[9] = CalculateAndTest<9>();
+   results[10] = CalculateAndTest<10>();
 
    return results;
 }
@@ -87,7 +90,7 @@ consteval storage<11> calculateAll()
 int main()
 {
    const auto start = std::chrono::steady_clock::now();
-   constexpr storage<11> results = calculateAll();
+   constexpr storage<11> results = CalculateAll();
    const auto calculationTime = std::chrono::steady_clock::now() - start;
 
    int i{};
